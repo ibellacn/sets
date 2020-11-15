@@ -79,7 +79,7 @@ const Operations = (props: PropsType) => {
       </h2>
       <div className="Operations-options">
         <strong>Qual a operação?</strong>
-        <label>
+        <label className="u-bottom-20">
           <span>Operação</span>
           <select defaultValue="default" onChange={onChangeOperation}>
             <option value="default">Selecione uma opção...</option>
@@ -96,7 +96,7 @@ const Operations = (props: PropsType) => {
       {operation && operation !== 0 ? (
         <div className="Operations-setSelection">
           <strong>Quais os conjuntos?</strong>
-          <label>
+          <label className="u-bottom-10">
             <span>Primeiro Conjunto</span>
             <select
               defaultValue="default"
