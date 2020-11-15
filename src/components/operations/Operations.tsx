@@ -1,5 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 
+import {
+  complement,
+  difference,
+  intersection,
+  powerset,
+  union,
+  universe,
+} from "../../utils/algorithms";
+
 import "./Operations.css";
 
 type PropsType = {
@@ -7,9 +16,9 @@ type PropsType = {
 };
 
 const Operations = (props: PropsType) => {
-  const [operation, setOperation] = useState<number>(0);
-  const [firstSet, setFirstSet] = useState<string[]>([]);
-  const [secondSet, setSecondSet] = useState<string[]>([]);
+  const [operation, setOperation] = useState<number | null>(null);
+  const [firstSetIndex, setFirstSetIndex] = useState<number | null>(null);
+  const [secondSetIndex, setSecondSetIndex] = useState<number | null>(null);
   const [result, setResult] = useState<string[]>();
   const setLabels = ["A", "B", "C", "D", "E"];
 
@@ -18,85 +27,56 @@ const Operations = (props: PropsType) => {
     setOperation(+value);
   };
 
-  const universe = () => {
-    const elements: string[] = [];
-    props.sets.forEach((set) => {
-      elements.concat(set);
-    });
-
-    const universe = new Set([...elements]);
-    return Array.from(universe);
-  };
-
-  const union = () => {
-    const union = new Set([...firstSet, ...secondSet]);
-    return Array.from(union);
-  };
-
-  const intersection = () => {
-    const intersection = new Set(
-      [...firstSet].filter((x) => secondSet.includes(x))
-    );
-
-    return Array.from(intersection);
-  };
-
-  const complement = () => {
-    // TODO
-    return [];
-  };
-
-  const difference = () => {
-    const difference = new Set(
-      [...firstSet].filter((x) => !secondSet.includes(x))
-    );
-    return Array.from(difference);
-  };
-
-  const powerset = () => {
-    const powerset = union().reduce(
-      (subsets: any, value: any) =>
-        subsets.concat(subsets.map((set: any) => [...set, value])),
-      [[]]
-    );
-
-    return Array.from(powerset as any[]);
-  };
-
   useEffect(() => {
     switch (operation) {
       case 0:
-        setResult(universe());
+        setResult(universe(props.sets));
         break;
       case 1:
-        setResult(union());
+        if (firstSetIndex === null || secondSetIndex === null) {
+          return;
+        }
+        setResult(union(props.sets[firstSetIndex], props.sets[secondSetIndex]));
         break;
       case 2:
-        setResult(intersection());
+        if (firstSetIndex === null || secondSetIndex === null) {
+          return;
+        }
+        setResult(
+          intersection(props.sets[firstSetIndex], props.sets[secondSetIndex])
+        );
         break;
       case 3:
-        setResult(complement());
+        if (firstSetIndex === null) {
+          return;
+        }
+        setResult(complement(props.sets, props.sets[firstSetIndex]));
         break;
       case 4:
-        setResult(difference());
+        if (firstSetIndex === null || secondSetIndex === null) {
+          return;
+        }
+        setResult(
+          difference(props.sets[firstSetIndex], props.sets[secondSetIndex])
+        );
         break;
       case 5:
-        setResult(powerset());
-        break;
-
-      default:
+        if (firstSetIndex === null) {
+          return;
+        }
+        setResult(powerset(props.sets[firstSetIndex]));
         break;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.sets, operation, firstSet, secondSet]);
+  }, [props.sets, operation, firstSetIndex, secondSetIndex]);
 
   return (
     <section className="Operations">
       <h1>Operações</h1>
-      <h3>
+      <h2 className="u-bottom-20">
         Selecione uma das operações a serem realizadas com os conjuntos dados
         anteriormente
-      </h3>
+      </h2>
       <div className="Operations-options">
         <strong>Qual a operação?</strong>
         <label>
@@ -113,45 +93,49 @@ const Operations = (props: PropsType) => {
         </label>
       </div>
 
-      <div className="Operations-setSelection">
-        <strong>Quais os conjuntos?</strong>
-        <label>
-          <span>Primeiro Conjunto</span>
-          <select
-            defaultValue="default"
-            onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-              setFirstSet(props.sets[+event.target.value]);
-            }}
-          >
-            <option disabled value="default">
-              Selecione uma opção...
-            </option>
-            {props.sets.map((_, index) => (
-              <option key={index} value={index}>
-                Conjunto {setLabels[index]}
+      {operation && operation !== 0 ? (
+        <div className="Operations-setSelection">
+          <strong>Quais os conjuntos?</strong>
+          <label>
+            <span>Primeiro Conjunto</span>
+            <select
+              defaultValue="default"
+              onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                setFirstSetIndex(+event.target.value);
+              }}
+            >
+              <option disabled value="default">
+                Selecione uma opção...
               </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Segundo Conjunto</span>
-          <select
-            defaultValue="default"
-            onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-              setSecondSet(props.sets[+event.target.value]);
-            }}
-          >
-            <option disabled value="default">
-              Selecione uma opção...
-            </option>
-            {props.sets.map((_, index) => (
-              <option key={index} value={index}>
-                Conjunto {setLabels[index]}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+              {props.sets.map((_, index) => (
+                <option key={index} value={index}>
+                  Conjunto {setLabels[index]}
+                </option>
+              ))}
+            </select>
+          </label>
+          {operation !== 3 && operation !== 5 ? (
+            <label>
+              <span>Segundo Conjunto</span>
+              <select
+                defaultValue="default"
+                onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                  setSecondSetIndex(+event.target.value);
+                }}
+              >
+                <option disabled value="default">
+                  Selecione uma opção...
+                </option>
+                {props.sets.map((_, index) => (
+                  <option key={index} value={index}>
+                    Conjunto {setLabels[index]}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+        </div>
+      ) : null}
 
       {result ? (
         <div className="Operations-result">

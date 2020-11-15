@@ -1,0 +1,33 @@
+.Sets-container {
+	display: flex;
+	flex-direction: column;
+}
+.Sets-set {
+	padding: 15px;
+	margin-bottom: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, .3);
+}
+.Sets-set label {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.Sets-set input {
+	flex: 1;
+	border: 0;
+	border-bottom: solid 1px #333;
+	margin: 0 10px;
+}
+.Sets-set button {
+	margin-left: 10px;
+}
+.Sets-set-name {
+	display: block;
+}
+.Sets-set-input {
+	display: block;
+}
+.Sets-set-count {
+	display: block;
+}

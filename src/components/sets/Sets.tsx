@@ -50,13 +50,13 @@ const Sets = (props: PropsType) => {
           value={set}
           data-index={index}
           onChange={onChangeSet}
-        />{" "}
+        />
+        <span>Cardinalidade: {props.sets[index]?.length}</span>
         {setValues.length > 1 ? (
           <button data-index={index} onClick={removeSet}>
             Remover
           </button>
         ) : null}
-        <span>Cardinalidade: {props.sets[index]?.length}</span>
       </label>
     </div>
   ));
@@ -75,11 +75,11 @@ const Sets = (props: PropsType) => {
   return (
     <section className="Sets">
       <h1>Conjuntos</h1>
-      <h3>
+      <h2 className="u-bottom-20">
         Adicione elementos aos conjuntos separando-os por virgulas (Exemplo: "1,
         2, A, X")
-      </h3>
-      {setElements}
+      </h2>
+      <div className="Sets-container u-bottom-20">{setElements}</div>
       {setValues.length < MAX_SETS ? (
         <button className="Sets-add" onClick={addSet}>
           Adicionar

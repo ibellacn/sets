@@ -10,8 +10,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <Sets sets={sets} setSets={setSets} />
-      <Operations sets={sets} />
+      <div className="App-content">
+        <Sets sets={sets} setSets={setSets} />
+        <div className="u-bottom-20" />
+        <Operations sets={sets} />
+      </div>
     </div>
   );
 };

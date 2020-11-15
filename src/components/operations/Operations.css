@@ -1,0 +1,34 @@
+.Operations-options {
+	display: flex;
+	flex-direction: column;
+}
+.Operations-options strong {
+	font-weight: bold;
+	margin-bottom: 10px;
+
+}
+.Operations-options span {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.Operations-setSelection {
+	display: flex;
+	flex-direction: column;
+}
+.Operations-setSelection strong {
+	font-weight: bold;
+	margin-bottom: 10px;
+
+}
+.Operations-setSelection span {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.Operations-result {
+	padding: 15px;
+	margin-top: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, .3);
+}

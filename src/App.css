@@ -1,0 +1,25 @@
+.App {
+	padding: 20px 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+h1 {
+	font-size: 24px;
+	line-height: 1.4;
+	font-weight: bold;
+}
+h2 {
+	font-size: 18px;
+	line-height: 1.2;
+}
+
+.u-bottom-10 {
+	margin-bottom: 10px;
+}
+.u-bottom-20 {
+	margin-bottom: 20px;
+}
+.u-display-block {
+	display: block;
+}
